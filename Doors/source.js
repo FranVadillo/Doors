@@ -98,6 +98,7 @@ function create(){
 	//Textos
 	cartelJugador = game.add.text(400, 16, '', { fontSize: '32px', fill: '#000' });
 	cartelJugadorMorir = game.add.text(350, 48, '', { fontSize: '20px', fill: '#000' });
+	cartelJugadorSiguiente = game.add.text(350, 75, '', { fontSize: '18px', fill: '#000' });
 	cartelJugadorFinal = game.add.text(100, 250, '', { fontSize: '27px', fill: '#FFF' });
 
 	//Menú
@@ -183,75 +184,72 @@ function update(){
 function atravesarPuerta(s,c,p){
 
 	if(!pulsada){
-	//Dependiendo del jugador que seas entra a un if o a otro
-	if(jugador == 2){
-		//Dependiendo del tipo de puerta te produce un efecto u otro
-		if(p.tipo == 1){
-			//Pierdes medio corazón
-			j2.vidas -= 0.5;
-			fadeBlack.loadTexture('rojo');
-		}else if(p.tipo == 2){
-			//Pierdes un corazón
-			j2.vidas -= 1;
-			fadeBlack.loadTexture('rojo');
-		}else{
-			fadeBlack.loadTexture('negro');
-		}
-		oscureciendo = true;
+		//Dependiendo del jugador que seas entra a un if o a otro
+		if(jugador == 2){
+			//Dependiendo del tipo de puerta te produce un efecto u otro
+			if(p.tipo == 1){
+				//Pierdes medio corazón
+				j2.vidas -= 0.5;
+				fadeBlack.loadTexture('rojo');
+			}else if(p.tipo == 2){
+				//Pierdes un corazón
+				j2.vidas -= 1;
+				fadeBlack.loadTexture('rojo');
+			}else{
+				fadeBlack.loadTexture('negro');
+			}
+			oscureciendo = true;
 
-		//Se desmarcan todas las puertas
-		for(var i = 0; i < puertas.length; i++){
-			puertas[i].desmarcar();
-		}
+			//Se desmarcan todas las puertas
+			for(var i = 0; i < puertas.length; i++){
+				puertas[i].desmarcar();
+			}
 	
-		//Se borran los iconos y se generan nuevos
-		i0.getSpriteIcono().destroy();
-		i1.getSpriteIcono().destroy();
-		i2.getSpriteIcono().destroy();
-		i0 = new Icono(10,10, Math.floor((Math.random() * 23)));
-		i1 = new Icono(110,10, Math.floor((Math.random() * 23)));
-		i2 = new Icono(210,10, Math.floor((Math.random() * 23)));
-		iconos = [i0, i1, i2];
-		for(var i = 0; i < iconos.length; i++){
-			iconos[i].getSpriteIcono().inputEnabled = true;
-			iconos[i].getSpriteIcono().events.onInputDown.add(remarcarIcono, iconos[i], 0, iconos[i].getIndice());
-		}
+			//Se borran los iconos y se generan nuevos
+			i0.getSpriteIcono().destroy();
+			i1.getSpriteIcono().destroy();
+			i2.getSpriteIcono().destroy();
+			i0 = new Icono(10,10, Math.floor((Math.random() * 23)));
+			i1 = new Icono(110,10, Math.floor((Math.random() * 23)));
+			i2 = new Icono(210,10, Math.floor((Math.random() * 23)));
+			iconos = [i0, i1, i2];
+			for(var i = 0; i < iconos.length; i++){
+				iconos[i].getSpriteIcono().inputEnabled = true;
+				iconos[i].getSpriteIcono().events.onInputDown.add(remarcarIcono, iconos[i], 0, iconos[i].getIndice());
+			}
 		
-		pulsada = true;
-		//Cambia al jugador 1
-		//jugador = 1;
+			pulsada = true;
 
-	}else if(jugador == 3){
-		if(p.tipo == 1){
-			j3.vidas -= 0.5;
-			fadeBlack.loadTexture('rojo');
-		}else if(p.tipo == 2){
-			j3.vidas -= 1;
-			fadeBlack.loadTexture('rojo');
-		}else{
-			fadeBlack.loadTexture('negro');
+		}else if(jugador == 3){
+			if(p.tipo == 1){
+				j3.vidas -= 0.5;
+				fadeBlack.loadTexture('rojo');
+			}else if(p.tipo == 2){
+				j3.vidas -= 1;
+				fadeBlack.loadTexture('rojo');
+			}else{
+				fadeBlack.loadTexture('negro');
+			}
+			oscureciendo = true;
+
+			for(var i = 0; i < puertas.length; i++){
+				puertas[i].desmarcar();
+			}		
+
+			i0.getSpriteIcono().destroy();
+			i1.getSpriteIcono().destroy();
+			i2.getSpriteIcono().destroy();
+			i0 = new Icono(10,10, Math.floor((Math.random() * 23)));
+			i1 = new Icono(110,10, Math.floor((Math.random() * 23)));
+			i2 = new Icono(210,10, Math.floor((Math.random() * 23)));
+			iconos = [i0, i1, i2];
+			for(var i = 0; i < iconos.length; i++){
+				iconos[i].getSpriteIcono().inputEnabled = true;
+				iconos[i].getSpriteIcono().events.onInputDown.add(remarcarIcono, iconos[i], 0, iconos[i].getIndice());
+			}
+
+			pulsada = true;
 		}
-		oscureciendo = true;
-
-		for(var i = 0; i < puertas.length; i++){
-			puertas[i].desmarcar();
-		}		
-
-		i0.getSpriteIcono().destroy();
-		i1.getSpriteIcono().destroy();
-		i2.getSpriteIcono().destroy();
-		i0 = new Icono(10,10, Math.floor((Math.random() * 23)));
-		i1 = new Icono(110,10, Math.floor((Math.random() * 23)));
-		i2 = new Icono(210,10, Math.floor((Math.random() * 23)));
-		iconos = [i0, i1, i2];
-		for(var i = 0; i < iconos.length; i++){
-			iconos[i].getSpriteIcono().inputEnabled = true;
-			iconos[i].getSpriteIcono().events.onInputDown.add(remarcarIcono, iconos[i], 0, iconos[i].getIndice());
-		}
-
-		pulsada = true;
-		//jugador = 1;
-	}
 
 	}
 }
@@ -365,6 +363,8 @@ function jugador1(){
 	//Muestra el objetivo
 	cartelJugador.text = 'JUGADOR 1';
 	cartelJugadorMorir.text = 'Debes acabar con el jugador ' + jugadorMorir;
+	if(jugadorPrevio == 2) cartelJugadorSiguiente.text = 'El siguiente jugador es el jugador 3';
+	else if(jugadorPrevio == 3) cartelJugadorSiguiente.text = 'El siguiente jugador es el jugador 2';
 
 	this.pasarTurno = function(){
 		//Dependiendo del jugador que haya jugado antes el siguiente turno se le asigna a uno u otro
@@ -401,6 +401,7 @@ function jugador2_3(j){
 	jugadorPrevio = j.numero;
 
 	cartelJugadorMorir.text = '';
+	cartelJugadorSiguiente.text = '';
 
 	//Se le coloca el sprite básico de la puerta a todas
 	for(var i = 0; i < 4; i++){
