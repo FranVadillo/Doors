@@ -9,6 +9,7 @@ var j2,j3;
 var arrayTipoPuerta,arrayTipoPuertaMaster,arraySpritePuerta,arrayVidas;
 var botonPasarTurno;
 var menu;
+var pulsada;
 
 function preload() {
     	game.load.image('fondo', 'assets/fondo.png');
@@ -17,14 +18,17 @@ function preload() {
 	game.load.image('puerta2', 'assets/puerta2.png');	
 	game.load.image('puerta3', 'assets/puerta3.png');	
 	game.load.image('flecha', 'assets/flechita.png');
-	game.load.image('negro','assets/negro.png')
-	game.load.image('rojo','assets/rojo.png')
-	game.load.image('corazon','assets/corazonEntero.png')
-	game.load.image('medioCorazon','assets/medioCorazon.png')
-	game.load.image('noCorazon','assets/corazonTransparente.png')
-	game.load.image('menu','assets/menu.png')
+	game.load.image('negro','assets/negro.png');
+	game.load.image('rojo','assets/rojo.png');
+	game.load.image('corazon','assets/corazonEntero.png');
+	game.load.image('medioCorazon','assets/medioCorazon.png');
+	game.load.image('noCorazon','assets/corazonTransparente.png');
+	game.load.image('menu','assets/menu.png');
+	game.load.image('instrucciones','assets/instrucciones.png');
 	game.load.image('botonIniciarJuego','assets/botonIniciarJuego.png');
 	game.load.image('botonInstrucciones','assets/botonInstrucciones.png');
+	game.load.image('botonVolver','assets/botonVolverAlMenu.png');
+	game.load.image('botonPasar','assets/botonPasarTurno.png')
 	game.load.spritesheet('iconos', 'assets/SpriteSheetEmojis.png', 102, 100,23);
 	game.load.spritesheet('iconosDestacados', 'assets/SpriteSheetEmojisDestacados.png', 102, 100, 23);
 }
@@ -48,9 +52,9 @@ function create(){
 	//Array del que se saca el orden de las puertas
 	arrayTipoPuerta = [0,0,1,2];
 	
-	p0 = new Puerta(50,200,0, 0);	
-	p1 = new Puerta(500,200,0, 1);
-	p2 = new Puerta(200,200,0, 2);
+	p0 = new Puerta(50,215,0, 0);	
+	p1 = new Puerta(300,200,0, 1);
+	p2 = new Puerta(550,215,0, 2);
 	p3 = new Puerta(800,200,0, 3);
 	puertas = [p0, p1, p2, p3];
 	for(var i = 0; i < puertas.length; i++){
@@ -89,6 +93,7 @@ function create(){
 
 	//Botón de pasar turno
 	botonPasarTurno = undefined;
+	pulsada = false;
 
 	//Textos
 	cartelJugador = game.add.text(400, 16, '', { fontSize: '32px', fill: '#000' });
@@ -119,10 +124,32 @@ function iniciarJuego(){
 }
 
 function instrucciones(){
-
-
+	menuFondo.destroy();
+	botonIniciarJuego.destroy();
+	botonInstrucciones.destroy();
+	menuInstrucciones = game.add.sprite(0, 0, 'instrucciones');
+	botonVolver = game.add.sprite(780, 520, 'botonVolver');
+	botonVolver.inputEnabled = true;
+	botonVolver.input.useHandCursor = true;
+	botonVolver.events.onInputDown.add(volverAlMenu);
 }
 
+function volverAlMenu(){
+	menuInstrucciones.destroy();
+	botonVolver.destroy();
+
+	menuFondo = game.add.sprite(0, 0, 'menu');
+	//Botones del menú
+	botonIniciarJuego = game.add.sprite(100, 350, 'botonIniciarJuego');
+	botonIniciarJuego.inputEnabled = true;
+	botonIniciarJuego.input.useHandCursor = true;
+	botonIniciarJuego.events.onInputDown.add(iniciarJuego);
+	
+	botonInstrucciones = game.add.sprite(100, 450, 'botonInstrucciones');
+	botonInstrucciones.inputEnabled = true;
+	botonInstrucciones.input.useHandCursor = true;
+	botonInstrucciones.events.onInputDown.add(instrucciones);
+}
 
 function update(){
 
@@ -134,6 +161,7 @@ function update(){
 				//jugador = 1;
 				oscureciendo = false;
 				fadeBlack.alpha = 0;
+				jugador = 1;
 			}
 			
 		}
@@ -154,7 +182,7 @@ function update(){
 //Recibe la puerta
 function atravesarPuerta(s,c,p){
 
-
+	if(!pulsada){
 	//Dependiendo del jugador que seas entra a un if o a otro
 	if(jugador == 2){
 		//Dependiendo del tipo de puerta te produce un efecto u otro
@@ -189,8 +217,9 @@ function atravesarPuerta(s,c,p){
 			iconos[i].getSpriteIcono().events.onInputDown.add(remarcarIcono, iconos[i], 0, iconos[i].getIndice());
 		}
 		
+		pulsada = true;
 		//Cambia al jugador 1
-		jugador = 1;
+		//jugador = 1;
 
 	}else if(jugador == 3){
 		if(p.tipo == 1){
@@ -220,10 +249,11 @@ function atravesarPuerta(s,c,p){
 			iconos[i].getSpriteIcono().events.onInputDown.add(remarcarIcono, iconos[i], 0, iconos[i].getIndice());
 		}
 
-		jugador = 1;
+		pulsada = true;
+		//jugador = 1;
 	}
 
-
+	}
 }
 
 function Puerta (x, y, tipo, ind){
@@ -248,7 +278,7 @@ function Puerta (x, y, tipo, ind){
 		for(var i = 0; i < iconos.length; i++){
 			if(iconos[i].getMarcado() && !this.marcada){
 				iconos[i].resetIcono(iconos[i].getIndice());
-				iconos[i].moveTo(x + 45, y + 45);
+				iconos[i].moveTo(x + 45, y + 50);
 				if(iconos[i].getPuertaAsignada() != undefined) puertas[iconos[i].getPuertaAsignada()].desmarcar();
 				iconos[i].setPuertaAsignada(this.indice);
 				this.marcada = true;
@@ -313,7 +343,7 @@ function jugador1(){
 	//Si no hay botón para pasar de turno lo crea
 	if(botonPasarTurno == undefined){
 		this.botonPasarTurno;
-		this.botonPasarTurno = game.add.sprite(900,525,'flecha');
+		this.botonPasarTurno = game.add.sprite(850,525,'botonPasar');
 		this.botonPasarTurno.inputEnabled = true;
 	}
 
@@ -342,7 +372,7 @@ function jugador1(){
 		if(jugadorPrevio == 3)jugador = 2;
 		botonPasarTurno.destroy();
 		botonPasarTurno = undefined;
-
+		pulsada = false;
 	}
 	//Función del botón
 	this.botonPasarTurno.events.onInputDown.add(this.pasarTurno);
