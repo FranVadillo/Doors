@@ -41,6 +41,4 @@ public class JugadorController {
 		return new ResponseEntity<Jugador>(j, HttpStatus.CREATED);
 	}
 	
-	
-	
 }

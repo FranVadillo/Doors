@@ -25,12 +25,18 @@ public class ServicioPartida {
 	}
 
 	//SETS
-	public void addPartida(Partida p) {
+	public void createPartida(Partida p) {
 		long id = this.prevId.getAndIncrement();
 		p.setId(id);
 		this.partidas.put(id, p);
 	}
 	public void addJugadorAPartida(long index, Jugador j) {
 		this.partidas.get(index).addJugador(j);
+	}
+	
+	//PUT
+	public void sacarJugador(Partida p, long idP) {
+		//this.partidas.get(idP).setnJugadores(this.partidas.get(idP).getnJugadores() - 1);
+		this.partidas.put(idP, p);
 	}
 }

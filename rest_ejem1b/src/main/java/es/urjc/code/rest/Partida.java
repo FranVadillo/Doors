@@ -10,38 +10,35 @@ import org.springframework.stereotype.Component;
 @Component 
 public class Partida {
 
-	private Map<Long, Jugador> listaJugadores = new HashMap<Long, Jugador>();
-	private AtomicLong prevId = new AtomicLong();
+	private ArrayList<Jugador> listaJugadores = new ArrayList<Jugador>();
 	private long idPartida;
 	private int nJugadores = 0;
 
 	//CONSTRUCTORES
 	public Partida() {}
-	public Partida(Jugador j0) {
-		long id = this.prevId.getAndIncrement();
-		j0.setId(id);
-		this.listaJugadores.put(id, j0);
-		this.idPartida = -1;
-		nJugadores++;
-	}
 	
 	//GETS
-	public ArrayList<Jugador> getJugadores() {
-		return new ArrayList<Jugador>(this.listaJugadores.values());
+	public ArrayList<Jugador> getListaJugadores() {
+		return this.listaJugadores;
 	}
 	public long getIdPartida() {
 		return this.idPartida;
 	}
+
+	public void addJugador(Jugador j) {
+		this.listaJugadores.add(j);
+		this.nJugadores++;
+	}
 	
 	//SETS
-	public void addJugador(Jugador j) {
-		long id = this.prevId.getAndIncrement();
-		j.setId(id);
-		this.listaJugadores.put(id, j);
-		nJugadores++;
-	}
 	public void setId(long index) {
 		this.idPartida = index;
+	}
+	public int getnJugadores() {
+		return nJugadores;
+	}
+	public void setnJugadores(int nJugadores) {
+		this.nJugadores = nJugadores;
 	}
 	
 }

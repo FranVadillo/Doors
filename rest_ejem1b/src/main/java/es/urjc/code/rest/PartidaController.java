@@ -30,18 +30,22 @@ public class PartidaController {
 
 	//POSTS
 	@RequestMapping(value = "/partida/create", method = RequestMethod.POST)
-	public ResponseEntity<Partida> addPartida(@RequestBody Jugador j){
-		Partida p = new Partida(j);
-		this.partidasService.addPartida(p);
-		return new ResponseEntity<Partida>(p, HttpStatus.CREATED);
+	public ResponseEntity<Boolean> createPartida(@RequestBody Partida p){
+		this.partidasService.createPartida(p);
+		return new ResponseEntity<Boolean>(true, HttpStatus.CREATED);
 	}
 	//POST
 	@RequestMapping(value = "/partida/add/{id}", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> addJugadorAPartida(@PathVariable long id, @RequestBody Jugador j){
+	public ResponseEntity<Partida> addJugadorAPartida(@PathVariable long id, @RequestBody Jugador j){
 		this.partidasService.addJugadorAPartida(id, j);
-		return new ResponseEntity<Boolean>(true, HttpStatus.CREATED);
+		return new ResponseEntity<Partida>(this.partidasService.getPartida(id), HttpStatus.CREATED);
 	}
-	
-	
+	//PUT
+	@PutMapping(value="/partida/out/{id}")
+	public ResponseEntity<Boolean> sacaJugador(@PathVariable long id, @RequestBody Partida pActualizada) {
+			this.partidasService.sacarJugador(pActualizada, id);
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+	}
+
 	
 }
