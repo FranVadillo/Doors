@@ -1,6 +1,5 @@
 Doors.Lobby = function(game){
 	var textCrear, textPartida;
-	var y;
 	var player;
 	var that;
 };
@@ -8,12 +7,12 @@ Doors.Lobby.prototype = {
 
 	create: function(){
 		that = this;
-
+		
+		//Guardo al jugador
 		$.ajax({
 			   url: 'http://localhost:8080/jugador/get/' + game.idJugador
 		}).done(function (jugadorAct) {
 				  that.player = jugadorAct;
-				  	console.log(that.player);
 		});
 
 		this.guardarPartida();
@@ -25,7 +24,6 @@ Doors.Lobby.prototype = {
 		textCrear.events.onInputDown.add(this.crearPartida, that);
 	},
 	actualizar: function(){
-		console.log("actualizando");
 		game.state.start('Lobby');
 	},
 	guardarPartida: function(){
@@ -37,10 +35,11 @@ Doors.Lobby.prototype = {
 			  })
 	},
 	crearPartida: function(){	
-		if(game.listaPartidas.length >= 8){ 
+		if(game.listaPartidas.length >= 9){ 
 			alert("No se pueden crear mas partidas");
 		}else{
-			partida = {};		
+			partida = {
+			};		
 			//POST crear partida
 			$.ajax({
 				   method: "POST",
@@ -70,15 +69,14 @@ Doors.Lobby.prototype = {
 				   headers: {
 					   "Content-Type": "application/json"
 				   }
-			}).done(function (partida) {
-				
+			}).done(function (partida) {	
 				    console.log("Has entrado a partida");
 					game.state.start('Partida', true, false, index);
 			})	
 		}
 	},
 	crearTexto: function(){
-		var y = 70;
+		var y = 100;
 
 		//TEXTO PARTIDAS
 		for(var i = 0; i < game.listaPartidas.length; i++){
@@ -90,17 +88,9 @@ Doors.Lobby.prototype = {
 		}
 		y = 70;
 		
-		textActualizar = that.add.text(200, 20, 'Actualizar', {fill:"#fff"});
+		textActualizar = that.add.text(750, 500, 'Actualizar', {fill:"#fff"});
 		textActualizar.inputEnabled = true;
 		textActualizar.input.useHandCursor = true;
 		textActualizar.events.onInputDown.add(that.actualizar, that);
-	},
-	actualizarJugador(){
-		console.log(game.idJugador);
-		$.ajax({
-			   url: 'http://localhost:8080/jugador/get/' + game.idJugador
-			  }).done(function (jugador) {
-				  that.jugador = this.jugador;
-			  });
 	}
 };

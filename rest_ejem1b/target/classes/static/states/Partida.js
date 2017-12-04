@@ -1,6 +1,6 @@
 
 Doors.Partida = function(game){
-	var textJugadores, textVolver;
+	var textJugadores, textVolver, textActualizar;
 	var listaJugadores;
 	var idPartida;
 	var that;
@@ -20,11 +20,9 @@ Doors.Partida.prototype = {
 			if(this.listaJugadores.length == 3) game.state.start('Menu');
 		},
 		actualizar: function(){
-			console.log("actualizando");
 			game.state.start('Partida', true, false, that.idPartida);
 		},
 		volver: function(){
-			console.log("vuelvo");
 			that.sacarJugador();
 			game.state.start('Lobby');
 		},
@@ -37,19 +35,19 @@ Doors.Partida.prototype = {
 				  })
 		},
 		crearTextos: function(){
-			var y = 10;
+			var y = 70;
 			//Texto jugadores
 			for(var i = 0; i < that.listaJugadores.length; i++){
 				textJugadores = that.add.text(40, y, that.listaJugadores[i].nombre, {fill: "#fff"});
-				y += 10;
+				y += 40;
 			}
 			//Texto para volver al lobby
-			textVolver = that.add.text(200, 200, 'Volver', {fill: "#fff"});
+			textVolver = that.add.text(20, 200, 'Volver', {fill: "#fff"});
 			textVolver.inputEnabled = true;
 			textVolver.input.useHandCursor = true;
 			textVolver.events.onInputDown.add(that.volver, that);
 			
-			textActualizar = that.add.text(200, 20, 'Actualizar', {fill:"#fff"});
+			textActualizar = that.add.text(200, 200, 'Actualizar', {fill:"#fff"});
 			textActualizar.inputEnabled = true;
 			textActualizar.input.useHandCursor = true;
 			textActualizar.events.onInputDown.add(that.actualizar, that);
@@ -58,7 +56,7 @@ Doors.Partida.prototype = {
 			for(var i = 0; i < that.listaJugadores.length; i++){
 				if(that.listaJugadores[i].id == game.idJugador) that.listaJugadores.splice(i, 1);
 			}
-			console.log(that.listaJugadores.length);
+
 			partida = {
 					listaJugadores : that.listaJugadores,
 					nJugadores : that.listaJugadores.length,
