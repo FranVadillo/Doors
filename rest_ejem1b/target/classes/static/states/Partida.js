@@ -1,4 +1,3 @@
-
 Doors.Partida = function(game){
 	var textJugadores, textVolver, textActualizar;
 	var listaJugadores;

@@ -25,7 +25,7 @@ Doors.Login.prototype = {
 		  }).done(function (jugador) {
 		   console.log("Jugador created");
 		   game.idJugador = jugador.id;
-		   game.state.start('Lobby');
+		   game.state.start('Juego');
 		 })
 
 	}

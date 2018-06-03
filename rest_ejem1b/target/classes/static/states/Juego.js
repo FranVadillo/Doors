@@ -1,4 +1,4 @@
-/*var iconos, puertas;
+﻿/*var iconos, puertas;
 
 var fadeBlack,oscureciendo;
 var jugador, jugadorMorir, jugadorPrevio;
@@ -209,7 +209,7 @@ Doors.Juego.prototype = {
 		this.desmarcar = function(){
 			this.marcada = false;
 		}
-		this.colocarEmoji = function(){
+		function colocarEmoji(){
 			for(var i = 0; i < iconos.length; i++){
 				if(iconos[i].getMarcado() && !this.marcada){
 					iconos[i].resetIcono(iconos[i].getIndice());
