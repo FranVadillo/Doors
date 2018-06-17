@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Implementation-Title: rest_ejem1b
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: Pc
+Built-By: Latra
 Implementation-Vendor-Id: es.urjc.code.rest
-Build-Jdk: 1.8.0_151
-Implementation-URL: http://projects.spring.io/spring-boot/ejem1b/
+Build-Jdk: 1.8.0_161
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/ejem1b
 Created-By: Maven Integration for Eclipse
-Implementation-Vendor: Pivotal Software, Inc.
 

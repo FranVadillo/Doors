@@ -9,4 +9,22 @@ game.state.add('Partida', Doors.Partida);
 game.state.add('Menu', Doors.Menu);
 game.state.add('Instrucciones', Doors.Instrucciones);
 game.state.add('Juego', Doors.JuegoBien); 
-game.state.start('Login');
+
+var socket;
+this.connect();
+
+function connect() {
+	
+	socket = new WebSocket("ws://localhost:8080/login");
+
+	socket.onopen = () => {
+		console.log('Info: WebSocket connection opened.');	
+		game.state.start('Login');
+
+	}
+
+	socket.onclose = () => {
+		console.log('Info: WebSocket closed.');
+	}
+
+}

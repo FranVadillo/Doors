@@ -5,8 +5,7 @@ Doors.Partida = function(game){
 	var that;
 };
 
-Doors.Partida.prototype = {
-		
+Doors.Partida.prototype = {		
 		init: function(index){
 			this.idPartida = index;
 		},
@@ -14,9 +13,26 @@ Doors.Partida.prototype = {
 			that = this;
 			this.listaJugadores = [];
 			this.guardarJugadores();
+
 		},
 		update: function(){
-			if(this.listaJugadores.length == 3) game.state.start('Menu');
+			if(this.listaJugadores.length == 3) sendMessage('empezarPartida',{idPartida:this.idPartida}); 
+				//game.state.start('Menu');
+			
+			socket.onmessage = (message) => {
+				
+				var packet = JSON.parse(message.data);
+				
+				switch (packet.type) {
+				case 'start':
+					game.state.start('Juego');
+					rol = packet.rol;
+					break;
+				case 'actualizaPartida': 
+					that.actualizar();
+					break;
+				}
+			}
 		},
 		actualizar: function(){
 			game.state.start('Partida', true, false, that.idPartida);
@@ -51,11 +67,14 @@ Doors.Partida.prototype = {
 			textActualizar.input.useHandCursor = true;
 			textActualizar.events.onInputDown.add(that.actualizar, that);
 		},
+		
+
 		sacarJugador: function(){
 			for(var i = 0; i < that.listaJugadores.length; i++){
 				if(that.listaJugadores[i].id == game.idJugador) that.listaJugadores.splice(i, 1);
 			}
-
+			sendMessage('volverLobby',{idPartida: that.idPartida}); 
+			/*
 			partida = {
 					listaJugadores : that.listaJugadores,
 					nJugadores : that.listaJugadores.length,
@@ -65,14 +84,15 @@ Doors.Partida.prototype = {
 				  $.ajax({
 				   method: "PUT",
 				   url: 'http://localhost:8080/partida/out/' + that.idPartida,
-				   data: JSON.stringify(partida),
+				   data: that.i,
 				   processData: false,
 				   headers: {
 				    "Content-Type": "application/json"
 				   }
 				  }).done(function (booleano) {
 				   console.log("Partida updated");
-				  });
+				  });*/
 
-		}
+		},
+	
 };

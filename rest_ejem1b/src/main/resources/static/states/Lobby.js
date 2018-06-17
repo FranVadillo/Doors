@@ -3,17 +3,12 @@ Doors.Lobby = function(game){
 	var player;
 	var that;
 };
+
+
 Doors.Lobby.prototype = {
 
 	create: function(){
 		that = this;
-		
-		//Guardo al jugador
-		$.ajax({
-			   url: 'http://localhost:8080/jugador/get/' + game.idJugador
-		}).done(function (jugadorAct) {
-				  that.player = jugadorAct;
-		});
 
 		this.guardarPartida();
 
@@ -22,6 +17,21 @@ Doors.Lobby.prototype = {
 		textCrear.inputEnabled = true;
 		textCrear.input.useHandCursor = true;
 		textCrear.events.onInputDown.add(this.crearPartida, that);
+		
+	},
+	
+	update: function(){
+	
+		socket.onmessage = (message) => {
+		
+			var packet = JSON.parse(message.data);
+		
+			switch (packet.type) {
+			case 'refresh':
+				this.actualizar();					
+				break;
+			}
+		}
 	},
 	actualizar: function(){
 		game.state.start('Lobby');
@@ -38,21 +48,8 @@ Doors.Lobby.prototype = {
 		if(game.listaPartidas.length >= 9){ 
 			alert("No se pueden crear mas partidas");
 		}else{
-			partida = {
-			};		
-			//POST crear partida
-			$.ajax({
-				   method: "POST",
-				   url: 'http://localhost:8080/partida/create',
-				   data: JSON.stringify(partida),
-				   processData: false,
-				   headers: {
-					   "Content-Type": "application/json"
-				   }
-			}).done(function (booleano) {
-				    console.log("Partida created");
-			})	
-			game.state.start('Lobby');
+			partida = {};		
+			sendMessage('crearPartida');
 		}
 	},
 	entrarPartida: function(a, b, index){
@@ -61,20 +58,13 @@ Doors.Lobby.prototype = {
 			game.state.start('Lobby');
 		}
 		else{
-			$.ajax({
-				   method: "POST",
-				   url: 'http://localhost:8080/partida/add/' + index,
-				   data: JSON.stringify(that.player),
-				   processData: false,
-				   headers: {
-					   "Content-Type": "application/json"
-				   }
-			}).done(function (partida) {	
-				    console.log("Has entrado a partida");
-					game.state.start('Partida', true, false, index);
-			})	
+			sendMessage('entrarPartida',{index:index});
+		    console.log("Has entrado a partida");			
+		    game.state.start('Partida', true, false, index);
 		}
 	},
+	
+	
 	crearTexto: function(){
 		var y = 100;
 
@@ -93,4 +83,6 @@ Doors.Lobby.prototype = {
 		textActualizar.input.useHandCursor = true;
 		textActualizar.events.onInputDown.add(that.actualizar, that);
 	}
+	
 };
+
