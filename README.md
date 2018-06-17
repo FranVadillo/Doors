@@ -5,6 +5,8 @@ Nombre: Doors
 
 Número de jugadores: 3
 
+https://www.youtube.com/watch?v=bAhw3g7Md54&feature=youtu.be
+
 Resumen: A lo largo del juego, dos de los tres jugadores tendrán que ir atravesando puertas utilizando las indicaciones del tercer jugador. Una puerta puede ser 
 	"segura", por lo que al atravesarla no pasará nada, o dañina, por lo que el jugador que la atraviese perderá una cantidad de puntos de vida. Esto sólo
 	lo sabrá de antemano el jugador 3 (guía). El guía tendrá como misión acabar con uno de los otros dos jugadores y lograr que el otro sobreviva, y su única
@@ -32,4 +34,30 @@ ________________________________________________________________________________
 Una vez hecho esto, nos encontraremos ante un nuevo juego de puertas, el guía volverá a colocar los iconos y esta vez será el turno del otro jugador, y así sucesivamente hasta que uno de ellos muera.
 	
 [![](https://i.gyazo.com/d0b7c04aeca0e93a18680b547cb1601d.png)]()
+
 _________________________________________________________________________________________
+
+Diadrama de clases
+
+[![](https://i.gyazo.com/49f50b61e4c42a4efa2a7f7fcf90f24e.png)]()
+
+_________________________________________________________________________________________
+
+Protocolo de websockets
+
+Se mandan mensajes que comunican el cliente y el servidor mediante websockets. Estos mensajes utilizan un formato JSON para su facil interpretación por parte de ambos. Internamente todos comparte un campo "type", donde se indica el tipo de mensaje, y un campo data, que incluye todos los datos que se quieran comunicar.
+
+Tipos de mensaje:
+
+nombreJugador: envía el nombre desde cliente y crea un objeto Jugador con ese nombre.
+crearPartida: crea una partida.
+entrarPartida: introduce al jugador en una partida.
+empezarPartida: inicia el juego para una determinada partida.
+finalizar: comunica que la partida ha terminado.
+moverEmoji: se utiliza para transmitir el movimiento de los iconos sobre las puertas.
+pasarTurno: comunica que un jugador ha terminado su turno.
+puertasMalas: indica que puertas son las que te penalizan.
+crear iconos: genera los iconos que se han de colocar.
+actualizarIconos: una vez acabado un turno, cambia los iconos.
+atravesada: indica que has atravesado una puerta.
+volverLobby: indica que un jugador ha vuelto al lobby.
