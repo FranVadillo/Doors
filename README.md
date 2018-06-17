@@ -50,14 +50,25 @@ Se mandan mensajes que comunican el cliente y el servidor mediante websockets. E
 Tipos de mensaje:
 
 nombreJugador: envía el nombre desde cliente y crea un objeto Jugador con ese nombre.
+
 crearPartida: crea una partida.
+
 entrarPartida: introduce al jugador en una partida.
+
 empezarPartida: inicia el juego para una determinada partida.
+
 finalizar: comunica que la partida ha terminado.
+
 moverEmoji: se utiliza para transmitir el movimiento de los iconos sobre las puertas.
+
 pasarTurno: comunica que un jugador ha terminado su turno.
+
 puertasMalas: indica que puertas son las que te penalizan.
+
 crear iconos: genera los iconos que se han de colocar.
+
 actualizarIconos: una vez acabado un turno, cambia los iconos.
+
 atravesada: indica que has atravesado una puerta.
+
 volverLobby: indica que un jugador ha vuelto al lobby.
